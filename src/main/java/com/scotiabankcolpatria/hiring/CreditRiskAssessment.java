@@ -85,24 +85,17 @@ public class CreditRiskAssessment {
      */
     public double[] latePaymentProbabilityByPeriod(int[][] paymentDelays) {
         int rows = paymentDelays.length;
-        System.out.println("rows " + rows);
         int columns = paymentDelays[0].length;
-        System.out.println("columns " + columns);
         double[] probability = new double[columns];
 
         for (int j = 0; j < columns; j++) {
-        	int sum = 0;
         	int count = 0;
             for (int i = 0; i < rows; i++) {
             	if (paymentDelays[i][j] > 0) {
-            		System.out.println("valor : " + paymentDelays[i][j]);
             		count ++;
-            		System.out.println("count " + count);
 				}
             }
-            
             probability[j] = (double)count / (double)rows;
-            System.out.println("div " + ((double)count / (double)rows));
         }
 
         return probability;
