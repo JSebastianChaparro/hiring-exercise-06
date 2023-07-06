@@ -1,7 +1,16 @@
 package com.scotiabankcolpatria.hiring;
 
+/**
+ * Clase que contiene los metodos para realizar el analisis de riesgo de pagos tardios,
+ * pagos inusuales y desviación estandar.
+ */
 public class CreditRiskAssessment {
 
+	/**
+	 * Calcula la desviacion estandar de los pagos realizados en cierto periodo de tiempo
+	 * @param paymentDelays Vector con cada uno de los pagos realizados en el mes correspondiente
+	 * @return Retorna el vlaor de la desviación estandar claculada
+	 */
     public double standardDeviation(int[] paymentDelays) {
     	//Se inicializan las variables que se usaran para el calculo de la dfesviación estandar
     	int lengthPayments = paymentDelays.length;
@@ -33,6 +42,11 @@ public class CreditRiskAssessment {
         return deviation;
     }
 
+    /**
+     * Extrae el indice del calculo del pico más alto de un pago inusual
+     * @param paymentDelays Vector con los pagos realizados en el mes correspondiente
+     * @return Retorna el el indice donde se encuentra el pago inusual maximo
+     */
     public int paymentDelayMaxPeakIndex(int[] paymentDelays) {
     	//Se inicializan variables
     	int limit = paymentDelays.length;
@@ -64,20 +78,33 @@ public class CreditRiskAssessment {
         return index;
     }
 
+    /**
+     * Calcula la probabilidad de que un pago se realice de manera inoportuna
+     * @param paymentDelays Matriz con los pagos de distintos productos de un cliente
+     * @return Retorna un vector con las probabilidades de un pago tardio
+     */
     public double[] latePaymentProbabilityByPeriod(int[][] paymentDelays) {
-        //TODO implement.
-        return null;
+        int rows = paymentDelays.length;
+        System.out.println("rows " + rows);
+        int columns = paymentDelays[0].length;
+        System.out.println("columns " + columns);
+        double[] probability = new double[columns];
+
+        for (int j = 0; j < columns; j++) {
+        	int sum = 0;
+        	int count = 0;
+            for (int i = 0; i < rows; i++) {
+            	if (paymentDelays[i][j] > 0) {
+            		System.out.println("valor : " + paymentDelays[i][j]);
+            		count ++;
+            		System.out.println("count " + count);
+				}
+            }
+            
+            probability[j] = (double)count / (double)rows;
+            System.out.println("div " + ((double)count / (double)rows));
+        }
+
+        return probability;
     }
-    
-    public static void main(String[] args) {
-		CreditRiskAssessment c = new CreditRiskAssessment();
-		System.out.println(c.standardDeviation(new int[]{0, 1, 3, 1, 0, 5, 0, 3, 2, 3}));
-		System.out.println(c.standardDeviation(new int[]{-5, 1, 8, 7, 2}));
-		System.out.println("paymentMax");
-		System.out.println("1: " + c.paymentDelayMaxPeakIndex(new int[]{5, 4, 2, 2, 0, 10, 10, 3}) + "\n");
-		System.out.println("2: " + c.paymentDelayMaxPeakIndex(new int[]{5, 4, 2, 2, 0, 10, 8, 3})+ "\n");
-		System.out.println("3: " + c.paymentDelayMaxPeakIndex(new int[]{0, 1, 1, 1, 0, 0, 0, 0})+ "\n");
-		System.out.println("4: " + c.paymentDelayMaxPeakIndex(new int[]{3, 3, 0, 3, 3, 0, 0, 3})+ "\n");
-		System.out.println("5: " + c.paymentDelayMaxPeakIndex(new int[]{17, 18, 17, 1, 0, 16, 0, 0})+ "\n");
-	}
 }
